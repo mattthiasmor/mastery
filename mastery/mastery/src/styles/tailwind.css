@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Color System */
+  --color-primary: #0d0d0d; /* Deep foundation - gray-950 */
+  --color-secondary: #1a1a1a; /* Subtle elevation layer - gray-900 */
+  --color-accent: #f9f871; /* Energizing yellow - yellow-300 */
+  --color-background: #0a0a0a; /* Absolute foundation - gray-950 */
+  --color-surface: #262626; /* Interactive element foundation - gray-800 */
+  --color-text-primary: #ffffff; /* Maximum contrast - white */
+  --color-text-secondary: #a3a3a3; /* Reduced emphasis - gray-400 */
+  --color-success: #22c55e; /* Positive reinforcement - green-500 */
+  --color-warning: #f59e0b; /* Attention-drawing amber - amber-500 */
+  --color-error: #ef4444; /* Clear danger signal - red-500 */
+  
+  /* Border and Shadow Colors */
+  --color-border: rgba(255, 255, 255, 0.1); /* Minimal separation borders */
+  --color-shadow: rgba(0, 0, 0, 0.3); /* Subtle elevation shadows */
+  
+  /* Animation Variables */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-text-primary font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Navigation Components */
+  .nav-item {
+    @apply flex items-center px-4 py-3 text-text-secondary hover:text-text-primary hover:bg-surface/50 rounded-lg transition-all duration-150 ease-smooth;
+  }
+  
+  .nav-item.active {
+    @apply text-accent bg-surface border-l-2 border-accent;
+  }
+  
+  .nav-item:hover {
+    @apply scale-[1.02] shadow-sm;
+  }
+  
+  /* Ambient Glow Effect */
+  .ambient-glow {
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249, 248, 113, 0.05), transparent 40%);
+    transition: background var(--duration-normal) var(--ease-smooth);
+  }
+  
+  /* Card Components */
+  .card {
+    @apply bg-surface border border-border rounded-lg shadow-lg;
+  }
+  
+  .card-elevated {
+    @apply shadow-xl;
+    box-shadow: 0 8px 32px var(--color-shadow);
+  }
+  
+  /* Button Components */
+  .btn-primary {
+    @apply bg-accent text-primary hover:bg-accent/90 px-4 py-2 rounded-md font-medium transition-all duration-150 ease-smooth;
+  }
+  
+  .btn-primary:hover {
+    @apply scale-105 shadow-md;
+    box-shadow: 0 0 20px rgba(249, 248, 113, 0.3);
+  }
+  
+  .btn-secondary {
+    @apply bg-surface text-text-primary hover:bg-surface/80 border border-border px-4 py-2 rounded-md font-medium transition-all duration-150 ease-smooth;
+  }
+  
+  /* Loading States */
+  .skeleton {
+    @apply bg-surface animate-pulse rounded;
+  }
+  
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  /* Staggered Reveal Animation */
+  .reveal-stagger {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: reveal 0.6s var(--ease-smooth) forwards;
+  }
+  
+  .reveal-stagger:nth-child(1) { animation-delay: 0ms; }
+  .reveal-stagger:nth-child(2) { animation-delay: 100ms; }
+  .reveal-stagger:nth-child(3) { animation-delay: 200ms; }
+  .reveal-stagger:nth-child(4) { animation-delay: 300ms; }
+  .reveal-stagger:nth-child(5) { animation-delay: 400ms; }
+  
+  @keyframes reveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Toast Notifications */
+  .toast {
+    @apply px-4 py-3 rounded-lg shadow-lg border border-border backdrop-blur-sm;
+    animation: slideIn 0.3s var(--ease-smooth);
+  }
+  
+  .toast-success {
+    @apply bg-success/10 border-success/20 text-success;
+  }
+  
+  .toast-warning {
+    @apply bg-warning/10 border-warning/20 text-warning;
+  }
+  
+  .toast-error {
+    @apply bg-error/10 border-error/20 text-error;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Focus States */
+  .focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+  }
+  
+  /* Scrollbar Styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface) var(--color-background);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-surface);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+  }
+}
+
+@layer utilities {
+  /* Typography Utilities */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-text-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Animation Utilities */
+  .animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(249, 248, 113, 0.2);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(249, 248, 113, 0.4);
+    }
+  }
+  
+  /* Layout Utilities */
+  .safe-area-inset {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Backdrop Utilities */
+  .backdrop-blur-dark {
+    backdrop-filter: blur(8px);
+    background-color: rgba(10, 10, 10, 0.8);
+  }
+}
